@@ -14,10 +14,17 @@ import { TreeMapCanvasPropTypes } from './props'
 import enhance from './enhance'
 import TreeMapNodeTooltip from './TreeMapNodeTooltip'
 
-const findNodeUnderCursor = (nodes, margin, x, y) =>
-    nodes.find(node =>
-        isCursorInRect(node.x + margin.left, node.y + margin.top, node.width, node.height, x, y)
-    )
+const findNodeUnderCursor = (nodes, margin, x, y) => {
+    let found = false;
+    for (let i = 0; i < nodes.length; i++) {
+    let node = nodes[i];
+    if (isCursorInRect(node.x + margin.left, node.y + margin.top, node.width, node.height, x, y))
+        if (found)
+        return node;
+        else
+        found = true;
+    }
+}
 
 class TreeMapCanvas extends Component {
     componentDidMount() {
